@@ -7,7 +7,6 @@ import '../providers.dart';
 import '../theme/app_colors.dart';
 import '../utils/time_format.dart';
 import '../widgets/rise_mark.dart';
-import '../widgets/surface_card.dart';
 import 'celebration_page.dart';
 import 'check_in_sheet.dart';
 
@@ -19,83 +18,115 @@ class HomeDashboard extends ConsumerWidget {
     final completed = ref.watch(completedCountProvider);
     final current = ref.watch(currentDayProvider);
     final wakeMin = ref.watch(habitProvider.select((s) => s.wakeTargetMinutes));
-    final theme = Theme.of(context);
     final wakeLabel = formatMinutesAsTime(wakeMin);
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           children: [
-            Row(
-              children: [
-                const RiseMark(size: 40),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const ScreenEyebrow(text: '21-Day Habit'),
-                      Text('Home', style: theme.textTheme.headlineSmall),
-                    ],
-                  ),
-                ),
-                WakeBadge(label: wakeLabel),
-              ],
+            AppHeader(
+              title: 'Active Morning Run',
+              wakeLabel: wakeLabel,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 14),
+
+            // Summary Card
             const _SummaryCard(),
             if (completed == kHabitDays) ...[
-              const SizedBox(height: 14),
-              SurfaceCard(
-                color: AppColors.tertiary.withValues(alpha: 0.12),
+              const SizedBox(height: 12),
+              GestureDetector(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (_) => const CelebrationPage(),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.celebration_rounded,
-                        color: AppColors.tertiary),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Challenge complete',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              color: AppColors.tertiary,
-                            ),
-                          ),
-                          Text(
-                            'Tap to open your Day $kHabitDays celebration',
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.tertiary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppColors.tertiary.withValues(alpha: 0.35),
                     ),
-                    const Icon(Icons.chevron_right_rounded,
-                        color: AppColors.tertiary),
-                  ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: AppColors.tertiary.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.celebration_rounded,
+                          color: AppColors.tertiary,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Challenge complete!',
+                              style: GoogleFonts.sora(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.tertiary,
+                              ),
+                            ),
+                            Text(
+                              'Tap to open your Day $kHabitDays celebration',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppColors.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        color: AppColors.tertiary,
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
             const SizedBox(height: 20),
+
+            // Section Header
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Your 21 days', style: theme.textTheme.titleMedium),
-                const Spacer(),
+                Text(
+                  'Your 21 days',
+                  style: GoogleFonts.sora(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.onSurface,
+                  ),
+                ),
                 Text(
                   current > kHabitDays
                       ? 'Window closed'
                       : 'Day $current · tap to check in',
-                  style: theme.textTheme.bodySmall,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: AppColors.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
+
+            // 21 Day Calendar Grid
             GridView.count(
               crossAxisCount: 7,
               shrinkWrap: true,
@@ -107,6 +138,8 @@ class HomeDashboard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
+
+            // Legend
             const _Legend(),
           ],
         ),
@@ -120,7 +153,6 @@ class _SummaryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
     final completed = ref.watch(completedCountProvider);
     final streak = ref.watch(streakProvider);
     final minutes = ref.watch(totalMinutesProvider);
@@ -128,30 +160,51 @@ class _SummaryCard extends ConsumerWidget {
     final current = ref.watch(currentDayProvider);
     final dayLabel = current > kHabitDays ? 'Done' : '$current / $kHabitDays';
 
-    return SurfaceCard(
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLow,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.outlineVariant.withValues(alpha: 0.28),
+        ),
+      ),
       child: Row(
         children: [
           SizedBox(
-            width: 96,
-            height: 96,
+            width: 90,
+            height: 90,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 SizedBox.expand(
                   child: CircularProgressIndicator(
-                    value: completed / kHabitDays,
-                    strokeWidth: 9,
+                    value: (completed / kHabitDays).clamp(0.0, 1.0),
+                    strokeWidth: 8,
                     strokeCap: StrokeCap.round,
                     color: AppColors.primaryContainer,
                     backgroundColor: AppColors.surfaceHighest,
                   ),
                 ),
-                Text(
-                  '$completed/$kHabitDays',
-                  style: GoogleFonts.sora(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '$completed/$kHabitDays',
+                      style: GoogleFonts.sora(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.onSurface,
+                      ),
+                    ),
+                    Text(
+                      'days',
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -160,22 +213,30 @@ class _SummaryCard extends ConsumerWidget {
           Expanded(
             child: Column(
               children: [
-                _StatRow(icon: Icons.today_rounded, label: 'Day', value: dayLabel),
-                const SizedBox(height: 10),
+                _StatRow(
+                  icon: Icons.today_rounded,
+                  iconColor: AppColors.primary,
+                  label: 'Day',
+                  value: dayLabel,
+                ),
+                const SizedBox(height: 8),
                 _StatRow(
                   icon: Icons.local_fire_department_rounded,
+                  iconColor: AppColors.secondary,
                   label: 'Streak',
                   value: '$streak day${streak == 1 ? '' : 's'}',
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 _StatRow(
                   icon: Icons.timer_outlined,
+                  iconColor: AppColors.primary,
                   label: 'Active',
                   value: '$minutes min',
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 _StatRow(
                   icon: Icons.route_rounded,
+                  iconColor: AppColors.tertiary,
                   label: 'Distance',
                   value: '${distance.toStringAsFixed(1)} km',
                 ),
@@ -191,11 +252,13 @@ class _SummaryCard extends ConsumerWidget {
 class _StatRow extends StatelessWidget {
   const _StatRow({
     required this.icon,
+    required this.iconColor,
     required this.label,
     required this.value,
   });
 
   final IconData icon;
+  final Color iconColor;
   final String label;
   final String value;
 
@@ -203,16 +266,23 @@ class _StatRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: AppColors.primary),
+        Icon(icon, size: 16, color: iconColor),
         const SizedBox(width: 8),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: AppColors.onSurfaceVariant,
+          ),
         ),
         const Spacer(),
         Text(
           value,
-          style: Theme.of(context).textTheme.titleSmall,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: AppColors.onSurface,
+          ),
         ),
       ],
     );
@@ -230,7 +300,7 @@ Color _statusColor(DayStatus s) {
     case DayStatus.today:
       return AppColors.primaryContainer.withValues(alpha: 0.35);
     case DayStatus.locked:
-      return AppColors.surfaceHighest;
+      return AppColors.surfaceHighest.withValues(alpha: 0.6);
   }
 }
 
@@ -261,15 +331,19 @@ class _DayCell extends ConsumerWidget {
               : null,
           alignment: Alignment.center,
           child: status == DayStatus.done
-              ? const Icon(Icons.check_rounded, color: Color(0xFF003822), size: 18)
+              ? const Icon(
+                  Icons.check_rounded,
+                  color: Color(0xFF003822),
+                  size: 18,
+                )
               : Text(
                   '$day',
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     color: locked
-                        ? AppColors.onSurfaceVariant.withValues(alpha: 0.45)
+                        ? AppColors.onSurfaceVariant.withValues(alpha: 0.4)
                         : onFilled,
                     fontWeight: FontWeight.w700,
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
                 ),
         ),
@@ -287,15 +361,21 @@ class _Legend extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 12,
-              height: 12,
+              width: 10,
+              height: 10,
               decoration: BoxDecoration(
                 color: _statusColor(s),
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(3),
               ),
             ),
             const SizedBox(width: 6),
-            Text(label, style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                color: AppColors.onSurfaceVariant,
+              ),
+            ),
           ],
         );
 

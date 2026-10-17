@@ -9,7 +9,7 @@ abstract final class AppTheme {
     final baseText = GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
     final display = GoogleFonts.soraTextTheme(ThemeData.dark().textTheme);
 
-    final scheme = const ColorScheme.dark(
+    const scheme = ColorScheme.dark(
       brightness: Brightness.dark,
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
@@ -27,7 +27,7 @@ abstract final class AppTheme {
       onSurfaceVariant: AppColors.onSurfaceVariant,
       outline: AppColors.outline,
       outlineVariant: AppColors.outlineVariant,
-      surfaceContainerLowest: AppColors.background,
+      surfaceContainerLowest: AppColors.surfaceLowest,
       surfaceContainerLow: AppColors.surfaceLow,
       surfaceContainer: AppColors.surfaceContainer,
       surfaceContainerHigh: AppColors.surfaceHigh,
@@ -229,7 +229,7 @@ abstract final class AppTheme {
         color: AppColors.primaryContainer,
         circularTrackColor: AppColors.surfaceHighest,
       ),
-      timePickerTheme: TimePickerThemeData(
+      timePickerTheme: const TimePickerThemeData(
         backgroundColor: AppColors.surfaceContainer,
         hourMinuteColor: AppColors.surfaceHigh,
         dayPeriodColor: AppColors.surfaceHigh,
