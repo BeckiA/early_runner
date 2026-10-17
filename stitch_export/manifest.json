@@ -1,0 +1,62 @@
+[
+  {
+    "id": "a3c6381eea7146e1aa977efe1e745f94",
+    "title": "Welcome - Rise Early Run Daily",
+    "slug": "01_welcome_rise_early_run_daily",
+    "width": "780",
+    "height": "1954",
+    "deviceType": "MOBILE",
+    "html": "01_welcome_rise_early_run_daily.html",
+    "screenshot": "01_welcome_rise_early_run_daily.jpg",
+    "htmlBytes": 13599,
+    "screenshotBytes": 10276
+  },
+  {
+    "id": "a5bf1c24519f4b068dc9f7e1b58127cd",
+    "title": "Daily Check-in Modal (Day 8)",
+    "slug": "02_daily_checkin_modal_day_8",
+    "width": "780",
+    "height": "2668",
+    "deviceType": "MOBILE",
+    "html": "02_daily_checkin_modal_day_8.html",
+    "screenshot": "02_daily_checkin_modal_day_8.jpg",
+    "htmlBytes": 18645,
+    "screenshotBytes": 8736
+  },
+  {
+    "id": "a941888f47be4a038cae49d892f819a3",
+    "title": "Distance Progress Analytics",
+    "slug": "03_distance_progress_analytics",
+    "width": "780",
+    "height": "3398",
+    "deviceType": "MOBILE",
+    "html": "03_distance_progress_analytics.html",
+    "screenshot": "03_distance_progress_analytics.jpg",
+    "htmlBytes": 25675,
+    "screenshotBytes": 20289
+  },
+  {
+    "id": "af56e8b0fdad4fd3bed50163db29ef05",
+    "title": "Settings & Reminders",
+    "slug": "04_settings_reminders",
+    "width": "780",
+    "height": "3010",
+    "deviceType": "MOBILE",
+    "html": "04_settings_reminders.html",
+    "screenshot": "04_settings_reminders.jpg",
+    "htmlBytes": 26279,
+    "screenshotBytes": 33514
+  },
+  {
+    "id": "921e6b3a73d6465a84bfe863c79b4a12",
+    "title": "Completion Celebration (Day 21)",
+    "slug": "05_completion_celebration_day_21",
+    "width": "780",
+    "height": "2154",
+    "deviceType": "MOBILE",
+    "html": "05_completion_celebration_day_21.html",
+    "screenshot": "05_completion_celebration_day_21.jpg",
+    "htmlBytes": 15891,
+    "screenshotBytes": 7254
+  }
+]
